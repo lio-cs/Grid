@@ -1,0 +1,9 @@
+# id,name,country,principal,manufacturerId,primarySeries
+T-SF,Scuderia Ferrari,Italy,Fred Vasseur,M-FER,FIA Formula 1 World Championship
+T-AFC,Ferrari AF Corse,Italy,Antonello Coletta,M-FER,FIA World Endurance Championship & GT World Challenge
+T-PPM,Porsche Penske Motorsport,Germany,Thomas Laudenbach,M-POR,FIA WEC & IMSA WeatherTech SportsCar Championship
+T-MAN,Manthey EMA,Germany,Nicolas Raeder,M-POR,FIA WEC LMGT3 & DTM
+T-MAP,Mercedes-AMG Petronas F1 Team,United Kingdom,Toto Wolff,M-MER,FIA Formula 1 World Championship
+T-GET,Mercedes-AMG Team GetSpeed,Germany,Adam Osieka,M-MER,Nurburgring Langstrecken-Serie & GT World Challenge
+T-MCF,McLaren Formula 1 Team,United Kingdom,Andrea Stella,M-MCL,FIA Formula 1 World Championship
+T-UA,United Autosports,United Kingdom,Richard Dean,M-MCL,FIA World Endurance Championship LMGT3

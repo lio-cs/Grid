@@ -1,0 +1,14 @@
+# id,name,country,carNumber,teamId,championships
+D-LEC,Charles Leclerc,Monaco,16,T-SF,0
+D-SAI,Carlos Sainz,Spain,55,T-SF,0
+D-APG,Alessandro Pier Guidi,Italy,51,T-AFC,3
+D-CAL,James Calado,United Kingdom,51,T-AFC,3
+D-EST,Kevin Estre,France,6,T-PPM,2
+D-VAN,Laurens Vanthoor,Belgium,6,T-PPM,2
+D-PRE,Thomas Preining,Austria,91,T-MAN,1
+D-HAM,Lewis Hamilton,United Kingdom,44,T-MAP,7
+D-RUS,George Russell,United Kingdom,63,T-MAP,0
+D-ENG,Maro Engel,Germany,130,T-GET,2
+D-NOR,Lando Norris,United Kingdom,4,T-MCF,0
+D-PIA,Oscar Piastri,Australia,81,T-MCF,0
+D-SAT,Marino Sato,Japan,95,T-UA,0
