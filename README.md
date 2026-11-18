@@ -23,8 +23,10 @@ This project also integrates all four **Gang of Four (GoF) Design Patterns** cov
 3. **Register New Sanctioned Cars & Accolades**
    - Dynamically create new `FormulaCar`, `PrototypeCar`, or `GTCar` entries via the **Factory Method** pattern and persist them to CSV files.
 4. **Personal Garage & Race Setup Tuner**
-   - Bookmark any car to your Personal Garage and dynamically wrap it in stackable **Decorator** setup packages (*Low-Drag Aero*, *Qualifying Engine Boost*, *Soft-Compound Racing Slicks*).
-5. **Live Notification Center**
+   - Bookmark any car to your Personal Garage, dynamically wrap it in stackable **Decorator** setup packages (*Low-Drag Aero*, *Qualifying Engine Boost*, *Soft-Compound Racing Slicks*), and compare the **Tuned Garage Car vs. Stock Homologation** side by side.
+5. **Interactive Circuit & Team Cross-Drill-Down + Head-to-Head Comparison**
+   - Drill directly from any car's dossier into a **Track Profile** or **Operating Team Profile** to see all other sanctioned cars that have competed there, or run a **Head-to-Head Telemetry Comparison** between any two cars with visual stat bars and delta calculations.
+6. **Live Notification Center**
    - Receive real-time console alerts and browse a timestamped session activity log powered by the **Observer** pattern, with the ability to subscribe/unsubscribe at runtime.
 
 ---
@@ -198,7 +200,8 @@ Grid/
 │       ├── decorator/                   # Block 3: Decorator Pattern tuning classes
 │       ├── observer/                    # Block 4: Observer Pattern notification classes
 │       ├── service/                     # Block 5: Thread-safe Singleton MotorsportLibrary
-│       └── storage/                     # Block 5: Plain-Java CSV persistence service
+│       ├── storage/                     # Block 5: Plain-Java CSV persistence service
+│       └── ui/                          # Block 7: ConsoleTheme (ANSI brand colors, gauges & comparison table)
 └── run.bat                              # One-click Windows compile & run script
 ```
 

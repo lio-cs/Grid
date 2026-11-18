@@ -219,6 +219,15 @@ public class MotorsportLibrary {
         return null;
     }
 
+    public RaceCar getRaceCarById(String id) {
+        for (RaceCar car : raceCars) {
+            if (car.getId().equalsIgnoreCase(id)) {
+                return car;
+            }
+        }
+        return null;
+    }
+
     /**
      * Returns all sanctioned RaceCars built by a specific Manufacturer.
      */
@@ -227,6 +236,38 @@ public class MotorsportLibrary {
         for (RaceCar car : raceCars) {
             if (car.getManufacturerId().equalsIgnoreCase(manufacturerId)) {
                 result.add(car);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Returns all sanctioned RaceCars across all manufacturers that have competed on the given Track.
+     */
+    public List<RaceCar> getCarsByTrack(String trackId) {
+        List<RaceCar> result = new ArrayList<>();
+        for (RaceCar car : raceCars) {
+            for (String tId : car.getTrackIds()) {
+                if (tId.equalsIgnoreCase(trackId)) {
+                    result.add(car);
+                    break;
+                }
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Returns all sanctioned RaceCars operated by the given Team.
+     */
+    public List<RaceCar> getCarsByTeam(String teamId) {
+        List<RaceCar> result = new ArrayList<>();
+        for (RaceCar car : raceCars) {
+            for (String tmId : car.getTeamIds()) {
+                if (tmId.equalsIgnoreCase(teamId)) {
+                    result.add(car);
+                    break;
+                }
             }
         }
         return result;

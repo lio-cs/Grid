@@ -15,24 +15,21 @@ import grid.observer.ActivityLogObserver;
 import grid.observer.ConsoleAlertObserver;
 import grid.service.MotorsportLibrary;
 import grid.storage.CsvStorageService;
+import grid.ui.ConsoleTheme;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 
 /**
- * Entry point and interactive CLI for the Grid Motorsport Library Management System.
+ * Entry point and Rich Terminal UI (TUI) controller for the Grid Motorsport Library Management System.
  *
- * Primary Flow:
- * 1. User selects a Manufacturer (e.g., Ferrari)
- * 2. App shows all sanctioned Race Cars built by that Manufacturer
- * 3. User selects a Race Car to inspect its complete Dossier:
- *    - Sanctioned Series & Class Regulations
- *    - Technical Specs (Engine, HP, Top Speed, Weight)
- *    - Accolades
- *    - Operating Teams
- *    - Drivers
- *    - Tracks Run On
+ * Features:
+ * 1. Manufacturer-First Drill-Down with ANSI Brand Colors & Breadcrumbs
+ * 2. Official Race Car Dossier with Visual Telemetry Stat Gauges (HP, Top Speed, Weight, HP/tonne)
+ * 3. Interactive Cross-Drill-Down into Tracks and Operating Teams
+ * 4. Side-by-Side Head-to-Head Car Comparison (Catalog vs. Catalog OR Stock vs. Decorator-Tuned)
+ * 5. Factory Method Car Registration, Decorator Garage Tuner, and Observer Notification Center
  */
 public class Main {
     private static final String DATA_DIR = "data";
@@ -58,20 +55,25 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         boolean running = true;
 
-        printWelcomeBanner();
+        ConsoleTheme.printBanner(
+                "WELCOME TO GRID: MOTORSPORT ARCHIVE & GARAGE",
+                "Explore Sanctioned Race Cars, Telemetry, Accolades, Teams & Tracks",
+                ConsoleTheme.TEAL);
 
         while (running) {
-            System.out.println("\n==============================================================");
-            System.out.println("              GRID - MOTORSPORT LIBRARY MAIN MENU             ");
-            System.out.println("==============================================================");
+            ConsoleTheme.printBreadcrumb("GRID", "Main Menu");
+            System.out.println("+======================================================================+");
+            System.out.println("|                 GRID - MOTORSPORT LIBRARY MAIN MENU                  |");
+            System.out.println("+======================================================================+");
             System.out.println("  1. Select a Manufacturer (Browse Cars, Specs, Teams, Drivers & Tracks)");
             System.out.println("  2. Search Entire Library (Cars, Manufacturers, Teams, Drivers, Tracks)");
             System.out.println("  3. Register a New Sanctioned Race Car (Factory Method Pattern)");
-            System.out.println("  4. My Garage & Setup Tuner (Decorator Pattern)");
-            System.out.println("  5. Notification Center & Activity Log (Observer Pattern)");
+            System.out.println("  4. My Garage & Setup Tuner (Decorator Pattern + Stock vs Tuned Diff)");
+            System.out.println("  5. Head-to-Head Car Comparison (Compare Any Two Sanctioned Cars)");
+            System.out.println("  6. Notification Center & Activity Log (Observer Pattern)");
             System.out.println("  0. Save & Exit");
-            System.out.println("--------------------------------------------------------------");
-            System.out.print("Select an option: ");
+            System.out.println("------------------------------------------------------------------------");
+            System.out.print("Select an option (0-6): ");
 
             String choice = readLine(scanner);
             if (choice == null) break;
@@ -90,6 +92,9 @@ public class Main {
                     handleGarageFlow(scanner, library);
                     break;
                 case "5":
+                    handleCompareCatalogCarsFlow(scanner, library);
+                    break;
+                case "6":
                     handleObserverCenterFlow(scanner, library, liveAlertObserver, activityLogObserver);
                     break;
                 case "0":
@@ -97,16 +102,9 @@ public class Main {
                     running = false;
                     break;
                 default:
-                    System.out.println("  [!] Invalid option. Please enter a number from 0 to 5.");
+                    System.out.println("  [!] Invalid option. Please enter a number from 0 to 6.");
             }
         }
-    }
-
-    private static void printWelcomeBanner() {
-        System.out.println("**************************************************************");
-        System.out.println("*          WELCOME TO GRID: MOTORSPORT ARCHIVE & GARAGE      *");
-        System.out.println("*   Explore Sanctioned Race Cars, Specs, Accolades & Teams   *");
-        System.out.println("**************************************************************");
     }
 
     // =========================================================================
@@ -121,12 +119,21 @@ public class Main {
         }
 
         while (true) {
-            System.out.println("\n--- SELECT A MANUFACTURER ---");
+            ConsoleTheme.printBreadcrumb("GRID", "Manufacturers");
+            System.out.println("+----------------------------------------------------------------------+");
+            System.out.println("|                       SELECT A MANUFACTURER                          |");
+            System.out.println("+----------------------------------------------------------------------+");
             for (int i = 0; i < manufacturers.size(); i++) {
                 Manufacturer m = manufacturers.get(i);
+                String brandColor = ConsoleTheme.getBrandColor(m.getId());
                 int carCount = library.getCarsByManufacturer(m.getId()).size();
-                System.out.printf("  %d. %-16s (%s) | %d Sanctioned Car(s)%n",
-                        i + 1, m.getName(), m.getDetails(), carCount);
+                System.out.printf("  %d. %s%-16s%s (%s) | %d Sanctioned Car(s)%n",
+                        i + 1,
+                        brandColor + ConsoleTheme.BOLD,
+                        m.getName(),
+                        ConsoleTheme.RESET,
+                        m.getDetails(),
+                        carCount);
             }
             System.out.println("  0. Back to Main Menu");
             System.out.print("Pick a Manufacturer (number): ");
@@ -147,12 +154,15 @@ public class Main {
 
     private static void handleManufacturerCarsMenu(
             Scanner scanner, MotorsportLibrary library, Manufacturer maker) {
+        String brandColor = ConsoleTheme.getBrandColor(maker.getId());
+
         while (true) {
             List<RaceCar> cars = library.getCarsByManufacturer(maker.getId());
-            System.out.println("\n==============================================================");
-            System.out.printf("  %s (%s) - SANCTIONED RACING CARS%n",
-                    maker.getName().toUpperCase(), maker.getDetails());
-            System.out.println("==============================================================");
+            ConsoleTheme.printBreadcrumb("GRID", "Manufacturers", maker.getName());
+            ConsoleTheme.printBanner(
+                    maker.getName().toUpperCase() + " - SANCTIONED RACING CARS",
+                    maker.getDetails(),
+                    brandColor);
 
             if (cars.isEmpty()) {
                 System.out.println("  No sanctioned cars registered for this manufacturer yet.");
@@ -161,8 +171,14 @@ public class Main {
 
             for (int i = 0; i < cars.size(); i++) {
                 RaceCar c = cars.get(i);
-                System.out.printf("  %d. %-34s [%s] - Series: %s%n",
-                        i + 1, c.getName(), c.getCarClass(), c.getSanctionedSeries());
+                System.out.printf("  %d. %s%-34s%s [%-9s] | %d HP | Series: %s%n",
+                        i + 1,
+                        ConsoleTheme.BOLD,
+                        c.getName(),
+                        ConsoleTheme.RESET,
+                        c.getCarClass(),
+                        c.getHorsepower(),
+                        c.getSanctionedSeries());
             }
             System.out.println("  0. Back to Manufacturers");
             System.out.print("Select a Race Car to inspect its complete dossier: ");
@@ -183,93 +199,186 @@ public class Main {
 
     private static void displayCarDossier(
             Scanner scanner, MotorsportLibrary library, Manufacturer maker, RaceCar car) {
+        String brandColor = ConsoleTheme.getBrandColor(maker.getId());
+
         while (true) {
-            System.out.println("\n**************************************************************");
-            System.out.printf("  OFFICIAL DOSSIER: %s (%s)%n", car.getName(), maker.getName());
-            System.out.println("**************************************************************");
+            ConsoleTheme.printBreadcrumb("GRID", "Manufacturers", maker.getName(), car.getName());
+            ConsoleTheme.printBanner(
+                    "OFFICIAL DOSSIER: " + car.getName() + " (" + maker.getName() + ")",
+                    "Sanctioned Series: " + car.getSanctionedSeries() + " [" + car.getCarClass() + "]",
+                    brandColor);
 
             // 1. Sanctioned Series & Regulations
-            System.out.println("  [SANCTIONED SERIES & CLASS]");
+            System.out.println(brandColor + ConsoleTheme.BOLD + "  [SANCTIONED SERIES & REGULATIONS]" + ConsoleTheme.RESET);
             System.out.println("    * Series       : " + car.getSanctionedSeries());
             System.out.println("    * Category     : " + car.getCarClass());
             System.out.println("    * Regulations  : " + car.getRegulationNotes());
 
-            // 2. Technical Specifications
-            System.out.println("\n  [TECHNICAL SPECIFICATIONS]");
-            System.out.println("    * Engine       : " + car.getEngineSpec());
-            System.out.println("    * Power Output : " + car.getHorsepower() + " HP");
-            System.out.println("    * Top Speed    : " + car.getTopSpeedKph() + " km/h");
-            System.out.println("    * Minimum Wt.  : " + car.getWeightKg() + " kg");
+            // 2. Visual Technical Specifications & Telemetry Gauges
+            System.out.println("\n" + brandColor + ConsoleTheme.BOLD + "  [TECHNICAL SPECIFICATIONS & TELEMETRY GAUGES]" + ConsoleTheme.RESET);
+            ConsoleTheme.printTelemetryGauges(car, brandColor);
 
             // 3. Accolades
-            System.out.println("\n  [MAJOR ACCOLADES & VICTORIES]");
+            System.out.println("\n" + brandColor + ConsoleTheme.BOLD + "  [MAJOR ACCOLADES & VICTORIES]" + ConsoleTheme.RESET);
             if (car.getAccolades().isEmpty()) {
                 System.out.println("    * None recorded yet.");
             } else {
                 for (String acc : car.getAccolades()) {
-                    System.out.println("    * " + acc);
+                    System.out.println("    * " + ConsoleTheme.GOLD + "★ " + ConsoleTheme.RESET + acc);
                 }
             }
 
             // 4. Operating Teams
-            System.out.println("\n  [TEAMS OPERATING THIS CAR]");
             List<Team> carTeams = library.getTeamsForCar(car);
+            System.out.println("\n" + brandColor + ConsoleTheme.BOLD + "  [TEAMS OPERATING THIS CAR]" + ConsoleTheme.RESET);
             if (carTeams.isEmpty()) {
                 System.out.println("    * No registered teams linked.");
             } else {
-                for (Team t : carTeams) {
-                    System.out.printf("    * %s (%s) - %s%n", t.getName(), t.getCountry(), t.getDetails());
+                for (int i = 0; i < carTeams.size(); i++) {
+                    Team t = carTeams.get(i);
+                    System.out.printf("    * [%d] %s%s%s (%s) - %s%n",
+                            i + 1, ConsoleTheme.BOLD, t.getName(), ConsoleTheme.RESET, t.getCountry(), t.getDetails());
                 }
             }
 
             // 5. Notable Drivers
-            System.out.println("\n  [NOTABLE DRIVERS]");
             List<Driver> carDrivers = library.getDriversForCar(car);
+            System.out.println("\n" + brandColor + ConsoleTheme.BOLD + "  [NOTABLE DRIVERS]" + ConsoleTheme.RESET);
             if (carDrivers.isEmpty()) {
                 System.out.println("    * No registered drivers linked.");
             } else {
                 for (Driver d : carDrivers) {
                     Team driverTeam = library.getTeamById(d.getTeamId());
                     String teamLabel = (driverTeam != null) ? driverTeam.getName() : d.getTeamId();
-                    System.out.printf("    * %-22s | #%d | %s | Team: %s | Titles: %d%n",
+                    System.out.printf("    * %-22s | #%2d | %-14s | Team: %-28s | Titles: %d%n",
                             d.getName(), d.getCarNumber(), d.getCountry(), teamLabel, d.getChampionships());
                 }
             }
 
             // 6. Tracks Competed On
-            System.out.println("\n  [SANCTIONED TRACKS RUN ON]");
             List<Track> carTracks = library.getTracksForCar(car);
+            System.out.println("\n" + brandColor + ConsoleTheme.BOLD + "  [SANCTIONED TRACKS RUN ON]" + ConsoleTheme.RESET);
             if (carTracks.isEmpty()) {
                 System.out.println("    * No tracks linked.");
             } else {
-                for (Track tr : carTracks) {
-                    System.out.printf("    * %-32s (%s) | %s%n",
-                            tr.getName(), tr.getCountry(), tr.getDetails());
+                for (int i = 0; i < carTracks.size(); i++) {
+                    Track tr = carTracks.get(i);
+                    System.out.printf("    * [%d] %-30s (%s) | %s%n",
+                            i + 1, tr.getName(), tr.getCountry(), tr.getDetails());
                 }
             }
 
-            System.out.println("--------------------------------------------------------------");
-            System.out.println("  Actions for " + car.getName() + ":");
-            System.out.println("    1. Bookmark this Car to My Garage (for Setup Tuning)");
+            System.out.println("------------------------------------------------------------------------");
+            System.out.println("  Interactive Actions for " + ConsoleTheme.BOLD + car.getName() + ConsoleTheme.RESET + ":");
+            System.out.println("    1. Bookmark this Car to My Garage (for Decorator Setup Tuning)");
             System.out.println("    2. Add a New Accolade / Race Win to this Car");
+            System.out.println("    3. Inspect a Track this Car Ran On (See All Cars Raced at that Circuit)");
+            System.out.println("    4. Inspect an Operating Team (See All Cars & Drivers at that Team)");
+            System.out.println("    5. Compare Head-to-Head vs. Another Sanctioned Car");
             System.out.println("    0. Back to " + maker.getName() + " Car List");
-            System.out.print("Choose an action: ");
+            System.out.print("Choose an action (0-5): ");
 
             String action = readLine(scanner);
             if (action == null || action.equals("0")) return;
 
-            if (action.equals("1")) {
-                library.bookmarkCarToGarage(car);
-            } else if (action.equals("2")) {
-                System.out.print("  Enter new accolade (e.g., '2025 24 Hours of Daytona Winner'): ");
-                String newAcc = readLine(scanner);
-                if (newAcc != null && !newAcc.trim().isEmpty()) {
-                    library.addAccoladeToCar(car, newAcc.trim());
-                }
-            } else {
-                System.out.println("  [!] Invalid option.");
+            switch (action) {
+                case "1":
+                    library.bookmarkCarToGarage(car);
+                    break;
+                case "2":
+                    System.out.print("  Enter new accolade (e.g., '2025 24 Hours of Daytona Winner'): ");
+                    String newAcc = readLine(scanner);
+                    if (newAcc != null && !newAcc.trim().isEmpty()) {
+                        library.addAccoladeToCar(car, newAcc.trim());
+                    }
+                    break;
+                case "3":
+                    handleInspectTrackFromDossier(scanner, library, carTracks, car.getName());
+                    break;
+                case "4":
+                    handleInspectTeamFromDossier(scanner, library, carTeams, car.getName());
+                    break;
+                case "5":
+                    handleCompareSingleCarWithAnother(scanner, library, car);
+                    break;
+                default:
+                    System.out.println("  [!] Invalid option.");
             }
         }
+    }
+
+    // =========================================================================
+    // Interactive Cross-Drill-Down: Track Profile & Team Profile
+    // =========================================================================
+
+    private static void handleInspectTrackFromDossier(
+            Scanner scanner, MotorsportLibrary library, List<Track> carTracks, String parentCarName) {
+        if (carTracks.isEmpty()) {
+            System.out.println("  No tracks linked to this car.");
+            return;
+        }
+        System.out.print("  Enter Track number [1-" + carTracks.size() + "] to inspect: ");
+        int idx = parseIndex(readLine(scanner), carTracks.size());
+        if (idx == -1) {
+            System.out.println("  [!] Invalid track number.");
+            return;
+        }
+        Track track = carTracks.get(idx);
+        ConsoleTheme.printBreadcrumb("GRID", parentCarName, "Track Profile", track.getName());
+        ConsoleTheme.printBanner(
+                "CIRCUIT DOSSIER: " + track.getName().toUpperCase(),
+                track.getCountry() + " | " + track.getDetails(),
+                ConsoleTheme.BLUE);
+
+        List<RaceCar> carsAtTrack = library.getCarsByTrack(track.getId());
+        System.out.println("  Sanctioned Race Cars in Library that have competed at " + track.getName() + ":");
+        for (RaceCar rc : carsAtTrack) {
+            Manufacturer m = library.getManufacturerById(rc.getManufacturerId());
+            String makerName = (m != null) ? m.getName() : rc.getManufacturerId();
+            System.out.printf("    * %-34s (%s | %s | %s)%n",
+                    rc.getName(), makerName, rc.getCarClass(), rc.getSanctionedSeries());
+        }
+        pauseForEnter(scanner);
+    }
+
+    private static void handleInspectTeamFromDossier(
+            Scanner scanner, MotorsportLibrary library, List<Team> carTeams, String parentCarName) {
+        if (carTeams.isEmpty()) {
+            System.out.println("  No teams linked to this car.");
+            return;
+        }
+        int idx = 0;
+        if (carTeams.size() > 1) {
+            System.out.print("  Enter Team number [1-" + carTeams.size() + "] to inspect: ");
+            idx = parseIndex(readLine(scanner), carTeams.size());
+            if (idx == -1) {
+                System.out.println("  [!] Invalid team number.");
+                return;
+            }
+        }
+        Team team = carTeams.get(idx);
+        String brandColor = ConsoleTheme.getBrandColor(team.getManufacturerId());
+        ConsoleTheme.printBreadcrumb("GRID", parentCarName, "Operating Team", team.getName());
+        ConsoleTheme.printBanner(
+                "OPERATING TEAM DOSSIER: " + team.getName().toUpperCase(),
+                team.getCountry() + " | " + team.getDetails(),
+                brandColor);
+
+        List<RaceCar> teamCars = library.getCarsByTeam(team.getId());
+        System.out.println("  Sanctioned Race Cars operated by " + team.getName() + ":");
+        for (RaceCar rc : teamCars) {
+            System.out.printf("    * %-34s [%s] - %s%n",
+                    rc.getName(), rc.getCarClass(), rc.getSanctionedSeries());
+        }
+
+        System.out.println("\n  Roster Drivers signed to " + team.getName() + ":");
+        for (Driver d : library.getDrivers()) {
+            if (d.getTeamId().equalsIgnoreCase(team.getId())) {
+                System.out.printf("    * %-22s | #%2d | %s | World/Major Titles: %d%n",
+                        d.getName(), d.getCarNumber(), d.getCountry(), d.getChampionships());
+            }
+        }
+        pauseForEnter(scanner);
     }
 
     // =========================================================================
@@ -277,16 +386,17 @@ public class Main {
     // =========================================================================
 
     private static void handleSearchFlow(Scanner scanner, MotorsportLibrary library) {
-        System.out.print("\nEnter search keyword (Car, Manufacturer, Team, Driver, Track, or Series): ");
+        ConsoleTheme.printBreadcrumb("GRID", "Global Search");
+        System.out.print("Enter search keyword (Car, Manufacturer, Team, Driver, Track, or Series): ");
         String keyword = readLine(scanner);
         if (keyword == null || keyword.trim().isEmpty()) return;
 
         List<CatalogItem> results = library.searchCatalog(keyword);
         System.out.printf("%n--- SEARCH RESULTS FOR '%s' (%d found) ---%n", keyword, results.size());
         for (CatalogItem item : results) {
-            // Polymorphic call to getCategoryName() and toString()/getDetails()
             System.out.printf("  [%-19s] %s%n", item.getCategoryName(), item);
         }
+        pauseForEnter(scanner);
     }
 
     // =========================================================================
@@ -294,7 +404,7 @@ public class Main {
     // =========================================================================
 
     private static void handleRegisterNewCarFlow(Scanner scanner, MotorsportLibrary library) {
-        System.out.println("\n--- REGISTER NEW SANCTIONED RACE CAR (FACTORY METHOD) ---");
+        ConsoleTheme.printBreadcrumb("GRID", "Register New Sanctioned Car (Factory Method)");
         List<Manufacturer> makers = library.getManufacturers();
         for (int i = 0; i < makers.size(); i++) {
             System.out.printf("  %d. %s (%s)%n", i + 1, makers.get(i).getName(), makers.get(i).getId());
@@ -340,7 +450,6 @@ public class Main {
 
         String newId = "C-" + (library.getRaceCars().size() + 100);
 
-        // Factory Method Pattern in action: obtain the appropriate factory and create the car
         RaceCarFactory factory = RaceCarFactory.getFactoryForClass(carClass);
         RaceCar newCar = factory.createCar(
                 newId, name, maker.getCountry(), maker.getId(), series, engine, hp, topSpeed, weight);
@@ -349,7 +458,6 @@ public class Main {
             newCar.addAccolade(accolade.trim());
         }
 
-        // Automatically link existing manufacturer teams & tracks if available
         for (Team t : library.getTeams()) {
             if (t.getManufacturerId().equalsIgnoreCase(maker.getId())) {
                 newCar.addTeamId(t.getId());
@@ -363,15 +471,18 @@ public class Main {
     }
 
     // =========================================================================
-    // 4. My Garage & Setup Tuner (Decorator Pattern)
+    // 4. My Garage & Setup Tuner (Decorator Pattern + Stock vs. Tuned Diff)
     // =========================================================================
 
     private static void handleGarageFlow(Scanner scanner, MotorsportLibrary library) {
         while (true) {
             List<CarComponent> garage = library.getUserGarage();
-            System.out.println("\n==============================================================");
-            System.out.println("           MY PERSONAL GARAGE & SETUP TUNER (DECORATOR)       ");
-            System.out.println("==============================================================");
+            ConsoleTheme.printBreadcrumb("GRID", "Personal Garage & Decorator Setup Tuner");
+            ConsoleTheme.printBanner(
+                    "MY PERSONAL GARAGE & SETUP TUNER (DECORATOR PATTERN)",
+                    "Stack Aero, Engine & Tire Decorators or Compare Tuned vs. Stock Spec",
+                    ConsoleTheme.GOLD);
+
             if (garage.isEmpty()) {
                 System.out.println("  Your garage is currently empty.");
                 System.out.println("  Tip: Browse a Manufacturer -> Pick a Car -> Select '1. Bookmark to Garage'!");
@@ -382,8 +493,8 @@ public class Main {
                 CarComponent c = garage.get(i);
                 System.out.printf("  %d. %s%n", i + 1, c.getSpecSummary());
             }
-            System.out.println("--------------------------------------------------------------");
-            System.out.println("Select a Garage Car number to apply a Racing Setup Decorator (or 0 to go back): ");
+            System.out.println("------------------------------------------------------------------------");
+            System.out.print("Select a Garage Car number [1-" + garage.size() + "] (or 0 to go back): ");
             String input = readLine(scanner);
             if (input == null || input.equals("0")) return;
 
@@ -394,12 +505,17 @@ public class Main {
             }
 
             CarComponent currentCar = garage.get(idx);
-            System.out.println("\nChoose a Setup Upgrade Decorator to wrap around: " + currentCar.getName());
-            System.out.println("  1. Low-Drag Aero Package (+15 km/h Top Speed, -5 kg Weight)");
-            System.out.println("  2. Qualifying Engine Boost Map (+65 HP, +8 km/h Top Speed)");
-            System.out.println("  3. Soft-Compound Racing Slicks (+10 km/h Speed, -8 kg Unsprung Weight)");
-            System.out.println("  0. Cancel");
-            System.out.print("Select upgrade: ");
+            System.out.println("\nSelected Garage Car: " + ConsoleTheme.BOLD + currentCar.getName() + ConsoleTheme.RESET);
+            ConsoleTheme.printTelemetryGauges(currentCar, ConsoleTheme.GOLD);
+
+            System.out.println("\nChoose an action:");
+            System.out.println("  1. Apply Low-Drag Aero Package Decorator (+15 km/h Top Speed, -5 kg Weight)");
+            System.out.println("  2. Apply Qualifying Engine Boost Decorator (+65 HP, +8 km/h Top Speed)");
+            System.out.println("  3. Apply Soft-Compound Racing Slicks Decorator (+10 km/h Speed, -8 kg Weight)");
+            System.out.println("  4. Compare Tuned Garage Car vs. Factory Stock Car (Side-by-Side Delta Table)");
+            System.out.println("  5. Strip Upgrades (Reset Car back to Stock Factory Homologation)");
+            System.out.println("  0. Back to Garage List");
+            System.out.print("Select option (0-5): ");
 
             String upChoice = readLine(scanner);
             if ("1".equals(upChoice)) {
@@ -408,12 +524,69 @@ public class Main {
                 library.updateGarageCarSetup(idx, new TurboDecorator(currentCar), "Qualifying Engine Boost");
             } else if ("3".equals(upChoice)) {
                 library.updateGarageCarSetup(idx, new SlickTiresDecorator(currentCar), "Soft Racing Slicks");
+            } else if ("4".equals(upChoice)) {
+                RaceCar stockCar = library.getRaceCarById(currentCar.getId());
+                if (stockCar != null) {
+                    ConsoleTheme.printComparisonTable(stockCar, currentCar);
+                    pauseForEnter(scanner);
+                }
+            } else if ("5".equals(upChoice)) {
+                RaceCar stockCar = library.getRaceCarById(currentCar.getId());
+                if (stockCar != null) {
+                    library.updateGarageCarSetup(idx, stockCar, "Factory Stock Reset");
+                }
             }
         }
     }
 
     // =========================================================================
-    // 5. Notification Center & Activity Log (Observer Pattern)
+    // 5. Head-to-Head Car Comparison (Compare Any Two Sanctioned Cars)
+    // =========================================================================
+
+    private static void handleCompareCatalogCarsFlow(Scanner scanner, MotorsportLibrary library) {
+        List<RaceCar> allCars = library.getRaceCars();
+        if (allCars.size() < 2) {
+            System.out.println("  Need at least 2 cars in the catalog to compare.");
+            return;
+        }
+        ConsoleTheme.printBreadcrumb("GRID", "Head-to-Head Car Comparison");
+        System.out.println("\n--- SELECT CAR #1 FOR COMPARISON ---");
+        for (int i = 0; i < allCars.size(); i++) {
+            RaceCar c = allCars.get(i);
+            System.out.printf("  %d. %-34s [%s] (%d HP, %d km/h, %d kg)%n",
+                    i + 1, c.getName(), c.getCarClass(), c.getHorsepower(), c.getTopSpeedKph(), c.getWeightKg());
+        }
+        System.out.print("Pick First Car (1-" + allCars.size() + "): ");
+        int idxA = parseIndex(readLine(scanner), allCars.size());
+        if (idxA == -1) return;
+
+        System.out.print("Pick Second Car (1-" + allCars.size() + "): ");
+        int idxB = parseIndex(readLine(scanner), allCars.size());
+        if (idxB == -1) return;
+
+        ConsoleTheme.printComparisonTable(allCars.get(idxA), allCars.get(idxB));
+        pauseForEnter(scanner);
+    }
+
+    private static void handleCompareSingleCarWithAnother(
+            Scanner scanner, MotorsportLibrary library, RaceCar currentCar) {
+        List<RaceCar> allCars = library.getRaceCars();
+        System.out.println("\n--- SELECT RIVAL CAR TO COMPARE AGAINST " + currentCar.getName().toUpperCase() + " ---");
+        for (int i = 0; i < allCars.size(); i++) {
+            RaceCar c = allCars.get(i);
+            System.out.printf("  %d. %-34s [%s] - %s%n",
+                    i + 1, c.getName(), c.getCarClass(), c.getSanctionedSeries());
+        }
+        System.out.print("Pick Rival Car (1-" + allCars.size() + "): ");
+        int idx = parseIndex(readLine(scanner), allCars.size());
+        if (idx == -1) return;
+
+        ConsoleTheme.printComparisonTable(currentCar, allCars.get(idx));
+        pauseForEnter(scanner);
+    }
+
+    // =========================================================================
+    // 6. Notification Center & Activity Log (Observer Pattern)
     // =========================================================================
 
     private static void handleObserverCenterFlow(
@@ -423,10 +596,12 @@ public class Main {
             ActivityLogObserver logObserver) {
         while (true) {
             boolean isLiveSubscribed = library.isSubscribed(liveObserver);
-            System.out.println("\n==============================================================");
-            System.out.println("            NOTIFICATION CENTER (OBSERVER PATTERN)            ");
-            System.out.println("==============================================================");
-            System.out.println("  Live Console Alerts Status: " + (isLiveSubscribed ? "SUBSCRIBED (ON)" : "UNSUBSCRIBED (OFF)"));
+            ConsoleTheme.printBreadcrumb("GRID", "Observer Notification Center");
+            ConsoleTheme.printBanner(
+                    "NOTIFICATION CENTER (OBSERVER PATTERN)",
+                    "Live Console Alerts: " + (isLiveSubscribed ? "SUBSCRIBED (ON)" : "UNSUBSCRIBED (OFF)"),
+                    ConsoleTheme.GREEN);
+
             System.out.println("  Recorded Activity Log Events (" + logObserver.getEntries().size() + "):");
             if (logObserver.getEntries().isEmpty()) {
                 System.out.println("    * No events logged yet in this session.");
@@ -435,7 +610,7 @@ public class Main {
                     System.out.println("    * " + entry);
                 }
             }
-            System.out.println("--------------------------------------------------------------");
+            System.out.println("------------------------------------------------------------------------");
             System.out.println("  1. Toggle Live Console Alerts Subscribe / Unsubscribe");
             System.out.println("  0. Back to Main Menu");
             System.out.print("Select option: ");
@@ -468,9 +643,14 @@ public class Main {
     // Input Helpers
     // =========================================================================
 
+    private static void pauseForEnter(Scanner scanner) {
+        System.out.print("\n  Press [ENTER] to continue...");
+        readLine(scanner);
+    }
+
     private static String readLine(Scanner scanner) {
         if (!scanner.hasNextLine()) return null;
-        return scanner.nextLine().trim();
+        return scanner.nextLine().replace("\uFEFF", "").trim();
     }
 
     private static int parseIndex(String input, int maxSize) {
