@@ -59,6 +59,11 @@ public class Main {
                 "WELCOME TO GRID: MOTORSPORT ARCHIVE & GARAGE",
                 "Explore Sanctioned Race Cars, Telemetry, Accolades, Teams & Tracks",
                 ConsoleTheme.TEAL);
+        System.out.println(ConsoleTheme.DIM
+                + "  [IP Notice] Non-commercial academic project. All manufacturer names, car models,\n"
+                + "  teams, tracks & series (Ferrari, Porsche, Mercedes-AMG, McLaren, FIA, F1, WEC)\n"
+                + "  are trademarks & intellectual property of their respective owners."
+                + ConsoleTheme.RESET);
 
         while (running) {
             ConsoleTheme.printBreadcrumb("GRID", "Main Menu");

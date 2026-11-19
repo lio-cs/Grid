@@ -1,0 +1,56 @@
+MIT License (Source Code)
+
+Copyright (c) 2026 lio-cs
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+================================================================================
+THIRD-PARTY INTELLECTUAL PROPERTY, TRADEMARK & EDUCATIONAL FAIR-USE DISCLAIMER
+================================================================================
+
+1. Non-Commercial Educational Purpose
+   "Grid – Motorsport Library & Garage Management System" is an academic student
+   project created strictly for non-commercial, educational purposes to demonstrate
+   Java Object-Oriented Programming (OOP) principles and software design patterns.
+
+2. Manufacturer & Motorsport Trademarks
+   All automotive manufacturer names, vehicle model designations, racing team names,
+   sanctioning body names, championship titles, and racing circuit names referenced
+   in this project and its CSV datasets are the trademarks, service marks, or
+   registered intellectual property of their respective owners, including but not
+   limited to:
+   - Ferrari, Scuderia Ferrari, Ferrari SF-24, Ferrari 499P, and Ferrari 296 GT3
+     are trademarks of Ferrari S.p.A.
+   - Porsche, Porsche 963, and Porsche 911 GT3 R are trademarks of
+     Dr. Ing. h.c. F. Porsche AG.
+   - Mercedes-AMG, Mercedes-AMG F1 W15 E Performance, and Mercedes-AMG GT3 Evo
+     are trademarks of Mercedes-Benz Group AG / Mercedes-AMG GmbH.
+   - McLaren, McLaren MCL38, and McLaren 720S GT3 Evo are trademarks of
+     McLaren Racing Limited and McLaren Automotive Limited.
+   - FIA, FIA Formula 1 World Championship (F1), FIA World Endurance Championship
+     (WEC), 24 Hours of Le Mans (ACO), IMSA, DTM, and GT World Challenge are
+     trademarks of their respective sanctioning bodies and rights holders.
+
+3. No Affiliation or Endorsement
+   This project is not affiliated with, endorsed by, sponsored by, or officially
+   connected to Ferrari S.p.A., Dr. Ing. h.c. F. Porsche AG, Mercedes-Benz Group AG,
+   McLaren Group, the Fédération Internationale de l'Automobile (FIA), Formula One
+   World Championship Limited, or any racing team, driver, or circuit referenced
+   herein. All factual specifications and historical racing records are used
+   nominatively for educational reference under fair-use / fair-dealing principles.

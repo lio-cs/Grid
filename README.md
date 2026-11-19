@@ -217,6 +217,17 @@ Grid/
 ### Option 2: Standard `javac` / `java` Commands
 ```bash
 mkdir out
-javac -d out src/grid/model/*.java src/grid/factory/*.java src/grid/decorator/*.java src/grid/observer/*.java src/grid/service/*.java src/grid/storage/*.java src/grid/Main.java
+javac -d out src/grid/model/*.java src/grid/factory/*.java src/grid/decorator/*.java src/grid/observer/*.java src/grid/service/*.java src/grid/storage/*.java src/grid/ui/*.java src/grid/Main.java
 java -cp out grid.Main
 ```
+
+---
+
+## License & Intellectual Property Disclaimer
+
+- **Source Code License:** The Java source code in this repository is licensed under the [MIT License](LICENSE).
+- **Manufacturer & Motorsport Intellectual Property Notice:**
+  This project is an **academic, non-commercial class assignment** created strictly for educational purposes to demonstrate Object-Oriented Programming (OOP) and software design patterns.
+  All manufacturer names, car model designations, racing team names, driver names, circuit names, and championship titles referenced in the dataset—including **Ferrari** (*Ferrari S.p.A.*), **Porsche** (*Dr. Ing. h.c. F. Porsche AG*), **Mercedes-AMG** (*Mercedes-Benz Group AG*), **McLaren** (*McLaren Racing Limited / McLaren Automotive Limited*), **FIA Formula 1**, **FIA World Endurance Championship (WEC)**, **24 Hours of Le Mans (ACO)**, and **IMSA**—are the trademarks and intellectual property of their respective owners.
+  This project is **not** affiliated with, sponsored by, or endorsed by any of the aforementioned manufacturers, teams, or motorsport sanctioning bodies.
+
