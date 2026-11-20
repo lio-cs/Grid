@@ -18,4 +18,5 @@ public interface CarComponent {
     int getWeightKg();
     String getRegulationNotes();
     String getSpecSummary();
+    String getAsciiSilhouette();
 }

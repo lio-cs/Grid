@@ -108,6 +108,59 @@ public final class ConsoleTheme {
     }
 
     /**
+     * Prints the polymorphic ASCII silhouette of a CarComponent in its manufacturer brand color.
+     */
+    public static void printCarSilhouette(CarComponent car, String brandColor) {
+        System.out.println(brandColor + BOLD + car.getAsciiSilhouette() + RESET);
+    }
+
+    /**
+     * Prints an ASCII circuit layout map for a given track ID.
+     */
+    public static void printTrackMap(String trackId) {
+        String map;
+        String id = (trackId == null) ? "" : trackId.trim().toUpperCase();
+        switch (id) {
+            case "TR-MONZA":
+                map = String.join("\n",
+                        "       [Curva Grande] .-----------------. [Lesmo 1 & 2]      ",
+                        "                     /                   \\                   ",
+                        "      [Rettifilo]   |    TEMPLE OF SPEED  \\___ [Ascari]      ",
+                        "                     \\________________________\\ [Parabolica] ");
+                break;
+            case "TR-LEMANS":
+                map = String.join("\n",
+                        "      [Tertre Rouge] .=========================. [Mulsanne]  ",
+                        "                    /   24 HOURS OF LE MANS     \\            ",
+                        "      [Dunlop]     |     (13.626 km Circuit)     | [Mulsanne]",
+                        "      [Ford Chic.]  \\___________________________/  [Indianapolis]");
+                break;
+            case "TR-SPA":
+                map = String.join("\n",
+                        "      [La Source] .---.        .---------. [Les Combes]      ",
+                        "                 /     \\______/           \\                  ",
+                        "                |  [Eau Rouge / Raidillon] \\   [Blanchimont] ",
+                        "      [Bus Stop] \\_________________________/   [Pouhon]      ");
+                break;
+            case "TR-MONACO":
+                map = String.join("\n",
+                        "      [Sainte Devote] .----.    .--. [Massenet / Casino]     ",
+                        "                     /      \\__/    \\___ [Fairmont Hairpin]  ",
+                        "      [Swimming Pool] \\                 / [Tunnel -> Portier]",
+                        "       [Rascasse]      '---------------'                     ");
+                break;
+            default:
+                map = String.join("\n",
+                        "             .-----------------------------.                 ",
+                        "            /    START / FINISH STRAIGHT    \\                ",
+                        "           |        [FIA GRADE 1 CIRCUIT]    |               ",
+                        "            \\_______________________________/                ");
+                break;
+        }
+        System.out.println(BLUE + BOLD + map + RESET);
+    }
+
+    /**
      * Prints the visual telemetry stat gauges for any CarComponent (stock or Decorator-tuned).
      */
     public static void printTelemetryGauges(CarComponent car, String brandColor) {

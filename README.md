@@ -1,5 +1,7 @@
 # Grid – Motorsport Library & Garage Management System
 
+![Grid Motorsport Archive & Garage Banner](assets/grid-banner.svg)
+
 **Grid** is a Java Object-Oriented Programming (OOP) console application designed as a **Motorsport Archive & Library Management System**. Users can select world-renowned racing **Manufacturers** (Ferrari, Porsche, Mercedes-AMG, McLaren) and explore all of their **officially sanctioned racing cars**, including technical specifications, major race accolades, operating teams, drivers, and the circuits they have competed on.
 
 This project also integrates all four **Gang of Four (GoF) Design Patterns** covered in [`Guide/tasks.pdf`](Guide/tasks.pdf): **Singleton**, **Observer**, **Decorator**, and **Factory Method**.

@@ -27,4 +27,15 @@ public class FormulaCar extends RaceCar {
     public String getRegulationNotes() {
         return "Open-wheel single-seater with ground-effect venturi tunnels & DRS active aerodynamics.";
     }
+
+    @Override
+    public String getAsciiSilhouette() {
+        return String.join("\n",
+                "            _.-=\"\"=-._                                      ",
+                "          .'  _    _  '.     /|____                         ",
+                "   _..---/   (_)  (_)   \\---' | DRS|___                     ",
+                " /'_____(================)____|____|___\\___/\\__             ",
+                " \\_______/  (O)      (O)  \\____________/  (O)  `--.___      ",
+                "            `-'      `-'                  `-'               ");
+    }
 }

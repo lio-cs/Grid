@@ -212,6 +212,7 @@ public class Main {
                     "OFFICIAL DOSSIER: " + car.getName() + " (" + maker.getName() + ")",
                     "Sanctioned Series: " + car.getSanctionedSeries() + " [" + car.getCarClass() + "]",
                     brandColor);
+            ConsoleTheme.printCarSilhouette(car, brandColor);
 
             // 1. Sanctioned Series & Regulations
             System.out.println(brandColor + ConsoleTheme.BOLD + "  [SANCTIONED SERIES & REGULATIONS]" + ConsoleTheme.RESET);
@@ -334,6 +335,7 @@ public class Main {
                 "CIRCUIT DOSSIER: " + track.getName().toUpperCase(),
                 track.getCountry() + " | " + track.getDetails(),
                 ConsoleTheme.BLUE);
+        ConsoleTheme.printTrackMap(track.getId());
 
         List<RaceCar> carsAtTrack = library.getCarsByTrack(track.getId());
         System.out.println("  Sanctioned Race Cars in Library that have competed at " + track.getName() + ":");
@@ -511,6 +513,7 @@ public class Main {
 
             CarComponent currentCar = garage.get(idx);
             System.out.println("\nSelected Garage Car: " + ConsoleTheme.BOLD + currentCar.getName() + ConsoleTheme.RESET);
+            ConsoleTheme.printCarSilhouette(currentCar, ConsoleTheme.GOLD);
             ConsoleTheme.printTelemetryGauges(currentCar, ConsoleTheme.GOLD);
 
             System.out.println("\nChoose an action:");

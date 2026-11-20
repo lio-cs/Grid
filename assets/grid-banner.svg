@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 320" width="100%" height="320">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b0f17" />
+      <stop offset="50%" stop-color="#141c2b" />
+      <stop offset="100%" stop-color="#0b0f17" />
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#e10600" />
+      <stop offset="35%" stop-color="#f5c518" />
+      <stop offset="70%" stop-color="#00d2be" />
+      <stop offset="100%" stop-color="#ff8000" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="320" rx="16" fill="url(#bg)" />
+
+  <!-- Subtle Racing Telemetry Grid Lines -->
+  <g stroke="#1e293b" stroke-width="1">
+    <line x1="0" y1="64" x2="1200" y2="64" />
+    <line x1="0" y1="128" x2="1200" y2="128" />
+    <line x1="0" y1="192" x2="1200" y2="192" />
+    <line x1="0" y1="256" x2="1200" y2="256" />
+    <line x1="200" y1="0" x2="200" y2="320" />
+    <line x1="400" y1="0" x2="400" y2="320" />
+    <line x1="600" y1="0" x2="600" y2="320" />
+    <line x1="800" y1="0" x2="800" y2="320" />
+    <line x1="1000" y1="0" x2="1000" y2="320" />
+  </g>
+
+  <!-- Top & Bottom Motorsport Multi-Brand Accent Bar (Ferrari Red, Porsche Gold, Mercedes Teal, McLaren Papaya) -->
+  <rect x="0" y="0" width="1200" height="8" fill="url(#accent)" />
+  <rect x="0" y="312" width="1200" height="8" fill="url(#accent)" />
+
+  <!-- Stylized Race Car Silhouette (Right Side) -->
+  <g transform="translate(730, 105)" fill="none" stroke="url(#accent)" stroke-width="3">
+    <path d="M 30 95 L 95 95 L 135 55 L 245 50 L 310 75 L 395 80 L 410 95 L 30 95 Z" fill="#1e293b" fill-opacity="0.7" />
+    <path d="M 20 60 L 55 60 L 65 95" stroke="#e10600" stroke-width="4" />
+    <circle cx="105" cy="95" r="24" fill="#0b0f17" stroke="#f5c518" stroke-width="4" />
+    <circle cx="335" cy="95" r="24" fill="#0b0f17" stroke="#00d2be" stroke-width="4" />
+  </g>
+
+  <!-- Title & Badges -->
+  <text x="64" y="115" fill="#ffffff" font-family="Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="64" font-weight="900" letter-spacing="4">
+    GRID
+  </text>
+  <text x="255" y="115" fill="#00d2be" font-family="Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="26" font-weight="700" letter-spacing="2">
+    MOTORSPORT ARCHIVE &amp; GARAGE
+  </text>
+
+  <text x="64" y="165" fill="#94a3b8" font-family="Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="20">
+    Java OOP Library Management System • Sanctioned Race Cars, Telemetry, Teams, Drivers &amp; Circuits
+  </text>
+
+  <!-- Design Pattern Pills -->
+  <g transform="translate(64, 205)" font-family="Consolas, monospace" font-size="15" font-weight="700">
+    <rect x="0" y="0" width="145" height="36" rx="8" fill="#e10600" fill-opacity="0.2" stroke="#e10600" stroke-width="1.5" />
+    <text x="24" y="23" fill="#ff6b6b">SINGLETON</text>
+
+    <rect x="165" y="0" width="185" height="36" rx="8" fill="#f5c518" fill-opacity="0.2" stroke="#f5c518" stroke-width="1.5" />
+    <text x="187" y="23" fill="#ffd43b">FACTORY METHOD</text>
+
+    <rect x="370" y="0" width="150" height="36" rx="8" fill="#00d2be" fill-opacity="0.2" stroke="#00d2be" stroke-width="1.5" />
+    <text x="395" y="23" fill="#38d9a9">DECORATOR</text>
+
+    <rect x="540" y="0" width="140" height="36" rx="8" fill="#ff8000" fill-opacity="0.2" stroke="#ff8000" stroke-width="1.5" />
+    <text x="567" y="23" fill="#ffa94d">OBSERVER</text>
+  </g>
+</svg>

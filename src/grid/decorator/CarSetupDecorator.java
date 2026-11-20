@@ -64,6 +64,11 @@ public abstract class CarSetupDecorator implements CarComponent {
     }
 
     @Override
+    public String getAsciiSilhouette() {
+        return wrappedCar.getAsciiSilhouette();
+    }
+
+    @Override
     public String getSpecSummary() {
         return String.format(
                 "%s | Series: %s | Engine: %s | Power: %d HP | Top Speed: %d km/h | Weight: %d kg",

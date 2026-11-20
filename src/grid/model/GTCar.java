@@ -28,4 +28,15 @@ public class GTCar extends RaceCar {
     public String getRegulationNotes() {
         return "Production-derived Grand Touring chassis governed by FIA Balance of Performance (BoP).";
     }
+
+    @Override
+    public String getAsciiSilhouette() {
+        return String.join("\n",
+                "       _                  ________________                  ",
+                "      | \\___         ____/   ___    ___   \\____             ",
+                "   ___|_____\\_______/       |   |  |   |       \\_______     ",
+                "  |   _     _     FIA GT3   |___|  |___|    _     _    `\\   ",
+                "  '--/ \\---(_)-----------------------------/ \\---(_)----'   ",
+                "     \\_/                                   \\_/              ");
+    }
 }
