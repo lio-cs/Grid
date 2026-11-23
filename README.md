@@ -20,13 +20,11 @@ This project also integrates all four **Gang of Four (GoF) Design Patterns** cov
      - **Operating Teams** (Team Principal, Country, Primary Series)
      - **Notable Drivers** (Car Number, Nationality, Team, World/Major Titles)
      - **Sanctioned Tracks Run On** (Track Length, Turns, Lap Record)
-2. **Polymorphic Catalog Search**
-   - Search across all 5 entity types (`Manufacturer`, `RaceCar`, `Team`, `Driver`, `Track`) by name, country, series, or specification.
-3. **Register New Sanctioned Cars & Accolades**
+2. **Register New Sanctioned Cars & Accolades**
    - Dynamically create new `FormulaCar`, `PrototypeCar`, or `GTCar` entries via the **Factory Method** pattern and persist them to CSV files.
-4. **Personal Garage & Race Setup Tuner**
+3. **Personal Garage & Race Setup Tuner**
    - Bookmark any car to your Personal Garage and dynamically wrap it in stackable **Decorator** setup packages (*Low-Drag Aero*, *Qualifying Engine Boost*, *Soft-Compound Racing Slicks*).
-5. **Live Notification Center**
+4. **Live Notification Center**
    - Receive real-time console alerts and browse a timestamped session activity log powered by the **Observer** pattern, with the ability to subscribe/unsubscribe at runtime.
 
 ---
@@ -200,8 +198,7 @@ Grid/
 │       ├── decorator/                   # Block 3: Decorator Pattern tuning classes
 │       ├── observer/                    # Block 4: Observer Pattern notification classes
 │       ├── service/                     # Block 5: Thread-safe Singleton MotorsportLibrary
-│       ├── storage/                     # Block 5: Plain-Java CSV persistence service
-│       └── ui/                          # Block 7: ConsoleTheme (ANSI brand colors, gauges & comparison table)
+│       └── storage/                     # Block 5: Plain-Java CSV persistence service
 └── run.bat                              # One-click Windows compile & run script
 ```
 
@@ -217,7 +214,7 @@ Grid/
 ### Option 2: Standard `javac` / `java` Commands
 ```bash
 mkdir out
-javac -d out src/grid/model/*.java src/grid/factory/*.java src/grid/decorator/*.java src/grid/observer/*.java src/grid/service/*.java src/grid/storage/*.java src/grid/ui/*.java src/grid/Main.java
+javac -d out src/grid/model/*.java src/grid/factory/*.java src/grid/decorator/*.java src/grid/observer/*.java src/grid/service/*.java src/grid/storage/*.java src/grid/Main.java
 java -cp out grid.Main
 ```
 

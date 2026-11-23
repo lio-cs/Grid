@@ -6,15 +6,6 @@ import java.util.List;
 
 /**
  * Abstract class representing an officially sanctioned racing car built by a Manufacturer.
- *
- * Links together:
- * - The Manufacturer that built it (manufacturerId)
- * - The Officially Sanctioned Series it competes in (sanctionedSeries)
- * - Full technical specs (engineSpec, horsepower, topSpeedKph, weightKg)
- * - Accolades won by the car (accolades)
- * - Teams operating the car (teamIds)
- * - Drivers who have piloted the car (driverIds)
- * - Tracks the car has run on (trackIds)
  */
 public abstract class RaceCar extends CatalogItem implements CarComponent {
     private String manufacturerId;
@@ -24,10 +15,10 @@ public abstract class RaceCar extends CatalogItem implements CarComponent {
     private int topSpeedKph;
     private int weightKg;
 
-    private final List<String> accolades;
-    private final List<String> teamIds;
-    private final List<String> driverIds;
-    private final List<String> trackIds;
+    private final List<String> accolades = new ArrayList<>();
+    private final List<String> teamIds = new ArrayList<>();
+    private final List<String> driverIds = new ArrayList<>();
+    private final List<String> trackIds = new ArrayList<>();
 
     public RaceCar(
             String id,
@@ -40,17 +31,12 @@ public abstract class RaceCar extends CatalogItem implements CarComponent {
             int topSpeedKph,
             int weightKg) {
         super(id, name, country);
-        setManufacturerId(manufacturerId);
-        setSanctionedSeries(sanctionedSeries);
-        setEngineSpec(engineSpec);
+        this.manufacturerId = manufacturerId;
+        this.sanctionedSeries = sanctionedSeries;
+        this.engineSpec = engineSpec;
         setHorsepower(horsepower);
-        setTopSpeedKph(topSpeedKph);
-        setWeightKg(weightKg);
-
-        this.accolades = new ArrayList<>();
-        this.teamIds = new ArrayList<>();
-        this.driverIds = new ArrayList<>();
-        this.trackIds = new ArrayList<>();
+        this.topSpeedKph = topSpeedKph;
+        this.weightKg = weightKg;
     }
 
     public String getManufacturerId() {
@@ -58,10 +44,7 @@ public abstract class RaceCar extends CatalogItem implements CarComponent {
     }
 
     public void setManufacturerId(String manufacturerId) {
-        if (manufacturerId == null || manufacturerId.trim().isEmpty()) {
-            throw new IllegalArgumentException("Manufacturer ID cannot be empty.");
-        }
-        this.manufacturerId = manufacturerId.trim();
+        this.manufacturerId = manufacturerId;
     }
 
     @Override
@@ -70,10 +53,7 @@ public abstract class RaceCar extends CatalogItem implements CarComponent {
     }
 
     public void setSanctionedSeries(String sanctionedSeries) {
-        if (sanctionedSeries == null || sanctionedSeries.trim().isEmpty()) {
-            throw new IllegalArgumentException("Sanctioned series cannot be empty.");
-        }
-        this.sanctionedSeries = sanctionedSeries.trim();
+        this.sanctionedSeries = sanctionedSeries;
     }
 
     @Override
@@ -82,10 +62,7 @@ public abstract class RaceCar extends CatalogItem implements CarComponent {
     }
 
     public void setEngineSpec(String engineSpec) {
-        if (engineSpec == null || engineSpec.trim().isEmpty()) {
-            throw new IllegalArgumentException("Engine specification cannot be empty.");
-        }
-        this.engineSpec = engineSpec.trim();
+        this.engineSpec = engineSpec;
     }
 
     @Override
@@ -94,10 +71,9 @@ public abstract class RaceCar extends CatalogItem implements CarComponent {
     }
 
     public void setHorsepower(int horsepower) {
-        if (horsepower <= 0) {
-            throw new IllegalArgumentException("Horsepower must be positive.");
+        if (horsepower > 0) {
+            this.horsepower = horsepower;
         }
-        this.horsepower = horsepower;
     }
 
     @Override
@@ -106,9 +82,6 @@ public abstract class RaceCar extends CatalogItem implements CarComponent {
     }
 
     public void setTopSpeedKph(int topSpeedKph) {
-        if (topSpeedKph <= 0) {
-            throw new IllegalArgumentException("Top speed must be positive.");
-        }
         this.topSpeedKph = topSpeedKph;
     }
 
@@ -118,14 +91,11 @@ public abstract class RaceCar extends CatalogItem implements CarComponent {
     }
 
     public void setWeightKg(int weightKg) {
-        if (weightKg <= 0) {
-            throw new IllegalArgumentException("Weight must be positive.");
-        }
         this.weightKg = weightKg;
     }
 
     public void addAccolade(String accolade) {
-        if (accolade != null && !accolade.trim().isEmpty() && !accolades.contains(accolade.trim())) {
+        if (accolade != null && !accolade.trim().isEmpty()) {
             accolades.add(accolade.trim());
         }
     }
@@ -135,7 +105,7 @@ public abstract class RaceCar extends CatalogItem implements CarComponent {
     }
 
     public void addTeamId(String teamId) {
-        if (teamId != null && !teamId.trim().isEmpty() && !teamIds.contains(teamId.trim())) {
+        if (teamId != null && !teamId.trim().isEmpty()) {
             teamIds.add(teamId.trim());
         }
     }
@@ -145,7 +115,7 @@ public abstract class RaceCar extends CatalogItem implements CarComponent {
     }
 
     public void addDriverId(String driverId) {
-        if (driverId != null && !driverId.trim().isEmpty() && !driverIds.contains(driverId.trim())) {
+        if (driverId != null && !driverId.trim().isEmpty()) {
             driverIds.add(driverId.trim());
         }
     }
@@ -155,7 +125,7 @@ public abstract class RaceCar extends CatalogItem implements CarComponent {
     }
 
     public void addTrackId(String trackId) {
-        if (trackId != null && !trackId.trim().isEmpty() && !trackIds.contains(trackId.trim())) {
+        if (trackId != null && !trackId.trim().isEmpty()) {
             trackIds.add(trackId.trim());
         }
     }
@@ -181,9 +151,6 @@ public abstract class RaceCar extends CatalogItem implements CarComponent {
         return getSpecSummary();
     }
 
-    /**
-     * Serializes the RaceCar and its semicolon-separated lists (accolades, teams, drivers, tracks) to CSV.
-     */
     @Override
     public String toCsv() {
         return String.join(",",

@@ -1,8 +1,7 @@
 package grid.model;
 
 /**
- * Represents a racing driver who pilots sanctioned race cars
- * (e.g., Charles Leclerc, Alessandro Pier Guidi, Kevin Estre).
+ * Represents a racing driver who pilots sanctioned race cars.
  */
 public class Driver extends CatalogItem {
     private int carNumber;
@@ -11,9 +10,9 @@ public class Driver extends CatalogItem {
 
     public Driver(String id, String name, String country, int carNumber, String teamId, int championships) {
         super(id, name, country);
-        setCarNumber(carNumber);
-        setTeamId(teamId);
-        setChampionships(championships);
+        this.carNumber = carNumber;
+        this.teamId = teamId;
+        this.championships = championships;
     }
 
     public int getCarNumber() {
@@ -21,9 +20,6 @@ public class Driver extends CatalogItem {
     }
 
     public void setCarNumber(int carNumber) {
-        if (carNumber < 0 || carNumber > 999) {
-            throw new IllegalArgumentException("Car number must be between 0 and 999.");
-        }
         this.carNumber = carNumber;
     }
 
@@ -32,10 +28,7 @@ public class Driver extends CatalogItem {
     }
 
     public void setTeamId(String teamId) {
-        if (teamId == null || teamId.trim().isEmpty()) {
-            throw new IllegalArgumentException("Team ID cannot be empty.");
-        }
-        this.teamId = teamId.trim();
+        this.teamId = teamId;
     }
 
     public int getChampionships() {
@@ -43,9 +36,6 @@ public class Driver extends CatalogItem {
     }
 
     public void setChampionships(int championships) {
-        if (championships < 0) {
-            throw new IllegalArgumentException("Championships cannot be negative.");
-        }
         this.championships = championships;
     }
 

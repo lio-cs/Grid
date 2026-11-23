@@ -10,9 +10,9 @@ public class Track extends CatalogItem {
 
     public Track(String id, String name, String country, double lengthKm, int turns, String lapRecord) {
         super(id, name, country);
-        setLengthKm(lengthKm);
-        setTurns(turns);
-        setLapRecord(lapRecord);
+        this.lengthKm = lengthKm;
+        this.turns = turns;
+        this.lapRecord = lapRecord;
     }
 
     public double getLengthKm() {
@@ -20,9 +20,6 @@ public class Track extends CatalogItem {
     }
 
     public void setLengthKm(double lengthKm) {
-        if (lengthKm <= 0) {
-            throw new IllegalArgumentException("Track length must be positive.");
-        }
         this.lengthKm = lengthKm;
     }
 
@@ -31,9 +28,6 @@ public class Track extends CatalogItem {
     }
 
     public void setTurns(int turns) {
-        if (turns <= 0) {
-            throw new IllegalArgumentException("Number of turns must be positive.");
-        }
         this.turns = turns;
     }
 
@@ -42,10 +36,7 @@ public class Track extends CatalogItem {
     }
 
     public void setLapRecord(String lapRecord) {
-        if (lapRecord == null || lapRecord.trim().isEmpty()) {
-            throw new IllegalArgumentException("Lap record cannot be empty.");
-        }
-        this.lapRecord = lapRecord.trim();
+        this.lapRecord = lapRecord;
     }
 
     @Override

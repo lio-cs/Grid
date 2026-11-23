@@ -1,8 +1,7 @@
 package grid.model;
 
 /**
- * Represents a racing team operating a manufacturer's race cars in sanctioned series
- * (e.g., Scuderia Ferrari, AF Corse, Porsche Penske Motorsport).
+ * Represents a racing team operating a manufacturer's race cars in sanctioned series.
  */
 public class Team extends CatalogItem {
     private String principal;
@@ -11,9 +10,9 @@ public class Team extends CatalogItem {
 
     public Team(String id, String name, String country, String principal, String manufacturerId, String primarySeries) {
         super(id, name, country);
-        setPrincipal(principal);
-        setManufacturerId(manufacturerId);
-        setPrimarySeries(primarySeries);
+        this.principal = principal;
+        this.manufacturerId = manufacturerId;
+        this.primarySeries = primarySeries;
     }
 
     public String getPrincipal() {
@@ -21,10 +20,7 @@ public class Team extends CatalogItem {
     }
 
     public void setPrincipal(String principal) {
-        if (principal == null || principal.trim().isEmpty()) {
-            throw new IllegalArgumentException("Team principal cannot be empty.");
-        }
-        this.principal = principal.trim();
+        this.principal = principal;
     }
 
     public String getManufacturerId() {
@@ -32,10 +28,7 @@ public class Team extends CatalogItem {
     }
 
     public void setManufacturerId(String manufacturerId) {
-        if (manufacturerId == null || manufacturerId.trim().isEmpty()) {
-            throw new IllegalArgumentException("Manufacturer ID cannot be empty.");
-        }
-        this.manufacturerId = manufacturerId.trim();
+        this.manufacturerId = manufacturerId;
     }
 
     public String getPrimarySeries() {
@@ -43,10 +36,7 @@ public class Team extends CatalogItem {
     }
 
     public void setPrimarySeries(String primarySeries) {
-        if (primarySeries == null || primarySeries.trim().isEmpty()) {
-            throw new IllegalArgumentException("Primary series cannot be empty.");
-        }
-        this.primarySeries = primarySeries.trim();
+        this.primarySeries = primarySeries;
     }
 
     @Override
@@ -61,12 +51,6 @@ public class Team extends CatalogItem {
 
     @Override
     public String toCsv() {
-        return String.join(",",
-                getId(),
-                getName(),
-                getCountry(),
-                principal,
-                manufacturerId,
-                primarySeries);
+        return String.join(",", getId(), getName(), getCountry(), principal, manufacturerId, primarySeries);
     }
 }

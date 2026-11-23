@@ -1,8 +1,7 @@
 package grid.model;
 
 /**
- * Represents an automotive/motorsport manufacturer (e.g., Ferrari, Porsche, Mercedes-AMG, McLaren).
- * Inherits id, name, and country from CatalogItem.
+ * Represents a motorsport manufacturer (e.g., Ferrari, Porsche, Mercedes-AMG, McLaren).
  */
 public class Manufacturer extends CatalogItem {
     private int foundedYear;
@@ -10,8 +9,8 @@ public class Manufacturer extends CatalogItem {
 
     public Manufacturer(String id, String name, String country, int foundedYear, String headquarters) {
         super(id, name, country);
-        setFoundedYear(foundedYear);
-        setHeadquarters(headquarters);
+        this.foundedYear = foundedYear;
+        this.headquarters = headquarters;
     }
 
     public int getFoundedYear() {
@@ -19,9 +18,6 @@ public class Manufacturer extends CatalogItem {
     }
 
     public void setFoundedYear(int foundedYear) {
-        if (foundedYear < 1800 || foundedYear > 2100) {
-            throw new IllegalArgumentException("Founded year must be between 1800 and 2100.");
-        }
         this.foundedYear = foundedYear;
     }
 
@@ -30,10 +26,7 @@ public class Manufacturer extends CatalogItem {
     }
 
     public void setHeadquarters(String headquarters) {
-        if (headquarters == null || headquarters.trim().isEmpty()) {
-            throw new IllegalArgumentException("Headquarters cannot be empty.");
-        }
-        this.headquarters = headquarters.trim();
+        this.headquarters = headquarters;
     }
 
     @Override
@@ -48,11 +41,6 @@ public class Manufacturer extends CatalogItem {
 
     @Override
     public String toCsv() {
-        return String.join(",",
-                getId(),
-                getName(),
-                getCountry(),
-                String.valueOf(foundedYear),
-                headquarters);
+        return String.join(",", getId(), getName(), getCountry(), String.valueOf(foundedYear), headquarters);
     }
 }

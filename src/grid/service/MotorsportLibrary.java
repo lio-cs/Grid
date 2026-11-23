@@ -1,7 +1,6 @@
 package grid.service;
 
 import grid.model.CarComponent;
-import grid.model.CatalogItem;
 import grid.model.Driver;
 import grid.model.Manufacturer;
 import grid.model.RaceCar;
@@ -12,7 +11,6 @@ import grid.observer.LibraryObserver;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Central Motorsport Database implementing the Thread-Safe Singleton Pattern
@@ -272,32 +270,5 @@ public class MotorsportLibrary {
             }
         }
         return result;
-    }
-
-    /**
-     * Polymorphic search across every CatalogItem in the library.
-     */
-    public List<CatalogItem> searchCatalog(String keyword) {
-        List<CatalogItem> matches = new ArrayList<>();
-        if (keyword == null || keyword.trim().isEmpty()) {
-            return matches;
-        }
-        String q = keyword.trim().toLowerCase(Locale.ROOT);
-
-        List<CatalogItem> allItems = new ArrayList<>();
-        allItems.addAll(manufacturers);
-        allItems.addAll(raceCars);
-        allItems.addAll(teams);
-        allItems.addAll(drivers);
-        allItems.addAll(tracks);
-
-        for (CatalogItem item : allItems) {
-            if (item.getName().toLowerCase(Locale.ROOT).contains(q)
-                    || item.getCountry().toLowerCase(Locale.ROOT).contains(q)
-                    || item.getDetails().toLowerCase(Locale.ROOT).contains(q)) {
-                matches.add(item);
-            }
-        }
-        return matches;
     }
 }
