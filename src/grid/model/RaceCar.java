@@ -34,7 +34,7 @@ public abstract class RaceCar extends CatalogItem implements CarComponent {
         this.manufacturerId = manufacturerId;
         this.sanctionedSeries = sanctionedSeries;
         this.engineSpec = engineSpec;
-        setHorsepower(horsepower);
+        this.horsepower = horsepower;
         this.topSpeedKph = topSpeedKph;
         this.weightKg = weightKg;
     }
